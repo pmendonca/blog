@@ -1,0 +1,55 @@
+baseURL = "https://pmendonca.github.io/blog/"
+languageCode = "pt-br"
+defaultContentLanguage = "pt-br"
+title = "Blog Terminal"
+theme = "terminal"
+
+[pagination]
+  pagerSize = 5
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[params]
+  contentTypeName = "posts"
+  showMenuItems = 1
+  fullWidthTheme = false
+  centerTheme = false
+  description = "Diário técnico sobre software, modelagem e práticas de programação."
+  author = "Contribuidores"
+
+[languages]
+  [languages."pt-br"]
+    title = "Blog Terminal"
+    subtitle = "Reflexões práticas sobre código, efeitos colaterais e modelagem."
+    menuMore = "Mais"
+    readMore = "Continuar lendo"
+    readOtherPosts = "Ver outros posts"
+    newerPosts = "Mais recentes"
+    olderPosts = "Anteriores"
+
+    [languages."pt-br".params.logo]
+      logoText = "Terminal"
+      logoHomeLink = "/"
+
+    [languages."pt-br".menu]
+      [[languages."pt-br".menu.main]]
+        identifier = "posts"
+        name = "Posts"
+        url = "/posts/"
+        weight = 1
+      [[languages."pt-br".menu.main]]
+        identifier = "resume"
+        name = "Currículo"
+        url = "https://pmendonca.github.io/resume/"
+        weight = 2
+      [[languages."pt-br".menu.main]]
+        identifier = "github"
+        name = "GitHub"
+        url = "https://github.com/pmendonca"
+        weight = 3
+      [[languages."pt-br".menu.main]]
+        identifier = "linkedin"
+        name = "LinkedIn"
+        url = "https://www.linkedin.com/in/paulocesarmendonca"
+        weight = 4
