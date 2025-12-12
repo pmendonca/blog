@@ -3,6 +3,7 @@ languageCode = "pt-br"
 defaultContentLanguage = "pt-br"
 title = "Blog Terminal"
 theme = "terminal"
+disableKinds = ["RSS", "sitemap"]
 
 [pagination]
   pagerSize = 5
