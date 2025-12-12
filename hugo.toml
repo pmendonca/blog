@@ -21,12 +21,14 @@ theme = "terminal"
 [languages]
   [languages."pt-br"]
     title = "Blog Terminal"
-    subtitle = "Reflexões práticas sobre código, efeitos colaterais e modelagem."
-    menuMore = "Mais"
-    readMore = "Continuar lendo"
-    readOtherPosts = "Ver outros posts"
-    newerPosts = "Mais recentes"
-    olderPosts = "Anteriores"
+
+    [languages."pt-br".params]
+      subtitle = "Reflexões práticas sobre código, efeitos colaterais e modelagem."
+      menuMore = "Mais"
+      readMore = "Continuar lendo"
+      readOtherPosts = "Ver outros posts"
+      newerPosts = "Mais recentes"
+      olderPosts = "Anteriores"
 
     [languages."pt-br".params.logo]
       logoText = "Terminal"
