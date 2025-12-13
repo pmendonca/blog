@@ -9,9 +9,6 @@ tags: ["FP", "Programação Funcional", "Arquitetura de Software" ]
 keywords: ["Imutabilidade", "Tipos Algébricos", "Efeitos Colaterais", "Modelagem Explícita"]
 ---
 
-> [!NOTE]
-> O que acontece quando um desenvolvedor se depara com FP pela primeira vez
-
 Caro leitor, este não é um blog didático. Não pretende ser tutorial, manifesto ou guia definitivo. É um **diário técnico**, escrito para mim, sobre o que aconteceu quando conceitos de **Programação Funcional** se misturaram a um código real, num projeto real com prazos, legados, times e sistemas de verdade.
 
 Essa jornada começou como qualquer outra, movida pela curiosidade, vou contar como rapidamente os resultados superaram qualquer expectativa. Medos comuns desapareceram: o receio constante de alterar código e a forte dependência de contexto histórico. O que segue é um diário que agora compatilho com você.
