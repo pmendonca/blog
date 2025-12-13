@@ -15,7 +15,7 @@ disableKinds = ["RSS", "sitemap"]
   contentTypeName = "posts"
   showMenuItems = 1
   fullWidthTheme = false
-  centerTheme = false
+  centerTheme = true
   description = "Diário técnico sobre software, modelagem e práticas de programação."
   author = "Contribuidores"
 
