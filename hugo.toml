@@ -4,6 +4,7 @@ defaultContentLanguage = "pt-br"
 title = "Blog Terminal"
 theme = "terminal"
 disableKinds = ["RSS", "sitemap"]
+googleAnalytics = "G-TDX09CXH6T"
 
 [pagination]
   pagerSize = 5
