@@ -1,4 +1,4 @@
-baseURL = "https://pmendonca.github.io/blog/"
+baseURL = "https://pmendonca.github.io/blog"
 languageCode = "pt-br"
 defaultContentLanguage = "pt-br"
 title = "Blog Terminal"
@@ -33,7 +33,7 @@ disableKinds = ["RSS", "sitemap"]
 
     [languages."pt-br".params.logo]
       logoText = "Terminal"
-      logoHomeLink = "/"
+      logoHomeLink = "/blog/"
 
     [languages."pt-br".menu]
       [[languages."pt-br".menu.main]]
