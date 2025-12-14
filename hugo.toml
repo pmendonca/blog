@@ -19,10 +19,13 @@ googleAnalytics = "G-TDX09CXH6T"
   centerTheme = true
   description = "Diário técnico sobre software, modelagem e práticas de programação."
   author = "Contribuidores"
+  showLanguageSelector = true
 
 [languages]
   [languages."pt-br"]
     title = "Blog Terminal"
+    languageName = "Português"
+    weight = 1
 
     [languages."pt-br".params]
       subtitle = "Reflexões práticas sobre código, efeitos colaterais e modelagem."
@@ -53,6 +56,45 @@ googleAnalytics = "G-TDX09CXH6T"
         url = "https://github.com/pmendonca"
         weight = 3
       [[languages."pt-br".menu.main]]
+        identifier = "linkedin"
+        name = "LinkedIn"
+        url = "https://www.linkedin.com/in/paulocesarmendonca"
+        weight = 4
+
+  [languages.en]
+    title = "Terminal Blog"
+    languageName = "English"
+    weight = 2
+
+    [languages.en.params]
+      subtitle = "Practical reflections on code, side effects, and modeling."
+      menuMore = "More"
+      readMore = "Read more"
+      readOtherPosts = "Browse other posts"
+      newerPosts = "Newer posts"
+      olderPosts = "Older posts"
+
+    [languages.en.params.logo]
+      logoText = "Terminal"
+      logoHomeLink = "/blog/"
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "posts"
+        name = "Posts"
+        url = "/posts/"
+        weight = 1
+      [[languages.en.menu.main]]
+        identifier = "resume"
+        name = "Resume"
+        url = "https://pmendonca.github.io/resume/"
+        weight = 2
+      [[languages.en.menu.main]]
+        identifier = "github"
+        name = "GitHub"
+        url = "https://github.com/pmendonca"
+        weight = 3
+      [[languages.en.menu.main]]
         identifier = "linkedin"
         name = "LinkedIn"
         url = "https://www.linkedin.com/in/paulocesarmendonca"
