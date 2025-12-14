@@ -1,6 +1,6 @@
 baseURL = "https://pmendonca.github.io/blog"
-languageCode = "pt-br"
-defaultContentLanguage = "pt-br"
+languageCode = "en"
+defaultContentLanguage = "en"
 title = "Blog Terminal"
 theme = "terminal"
 disableKinds = ["RSS", "sitemap"]
@@ -25,7 +25,7 @@ googleAnalytics = "G-TDX09CXH6T"
   [languages."pt-br"]
     title = "Blog Terminal"
     languageName = "Português"
-    weight = 1
+    weight = 2
 
     [languages."pt-br".params]
       subtitle = "Reflexões práticas sobre código, efeitos colaterais e modelagem."
@@ -64,7 +64,7 @@ googleAnalytics = "G-TDX09CXH6T"
   [languages.en]
     title = "Terminal Blog"
     languageName = "English"
-    weight = 2
+    weight = 1
 
     [languages.en.params]
       subtitle = "Practical reflections on code, side effects, and modeling."
