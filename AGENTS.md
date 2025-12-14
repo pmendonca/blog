@@ -1,5 +1,9 @@
 # Repository Guidelines
 
+## Important
+- Never change texts in /content/posts folder
+- If there was anything wrong about the text like typos or more complex issues, please let me know before execute any change
+
 ## Project Structure & Module Organization
 - Markdown-first repository; each post lives as a standalone `.md` file at the root or under `posts/` when you want to stage drafts separately.
 - Existing article `01_functional_programming.md` uses numbered prefixes to keep reading order; follow the same `NN_topic.md` pattern with lowercase, underscores between words.
