@@ -2,6 +2,7 @@
 title: "Programação Funcional: Diário Técnico - Parte 1"
 slug: "01-functional-programming"
 date: 2025-12-13
+author: "Paulo Mendonça"
 draft: false
 weight: 1,
 description: "Reflexões práticas sobre como conceitos de Programação Funcional mudam a forma de trabalhar em sistemas reais."
