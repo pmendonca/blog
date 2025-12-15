@@ -10,7 +10,7 @@ keywords: ["Imutabilidade", "Tipos Algébricos", "Efeitos Colaterais", "Modelage
 cover: "/blog/images/01-functional-programming.jpg"
 ---
 
-[Read in english](/blog/pt-BR/posts/01-functional-programming/)
+[Read in english](/blog/posts/01-functional-programming/)
 
 # Introdução
 
