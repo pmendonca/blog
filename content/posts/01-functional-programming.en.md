@@ -2,7 +2,7 @@
 title: "Functional Programming: Technical Diary – Part 1"
 slug: "01-functional-programming"
 date: 2025-12-13
-author: "Paulo Mendonça"
+author: "Mendonça, Paulo"
 draft: false
 weight: 1
 description: "Practical reflections on how Functional Programming concepts change the way we work with real systems."
