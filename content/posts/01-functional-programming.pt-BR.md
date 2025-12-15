@@ -7,7 +7,12 @@ weight: 1,
 description: "Reflexões práticas sobre como conceitos de Programação Funcional mudam a forma de trabalhar em sistemas reais."
 tags: ["FP", "Programação Funcional", "Arquitetura de Software" ]
 keywords: ["Imutabilidade", "Tipos Algébricos", "Efeitos Colaterais", "Modelagem Explícita"]
+cover: "/blog/images/01-functional-programming.jpg"
 ---
+
+[Read in english](/blog/posts/01-functional-programming)
+
+# Introdução
 
 Caro leitor, este não é um blog didático. Não pretende ser tutorial, manifesto ou guia definitivo. É um **diário técnico**, escrito para mim, sobre o que aconteceu quando conceitos de **Programação Funcional** se misturaram a um código real, num projeto real com prazos, legados, times e sistemas de verdade.
 

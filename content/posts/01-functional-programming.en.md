@@ -7,7 +7,10 @@ weight: 1
 description: "Practical reflections on how Functional Programming concepts change the way we work with real systems."
 tags: ["FP", "Functional Programming", "Software Architecture"]
 keywords: ["Immutability", "Algebraic Types", "Side Effects", "Explicit Modeling"]
+cover: "/blog/images/01-functional-programming.jpg"
 ---
+
+[Ler em português](/blog/en/posts/01-functional-programming/)
 
 Dear reader, this is not a didactic blog. It does not aim to be a tutorial, a manifesto, or a definitive guide. It is a **technical diary**, written for myself, about what happened when **Functional Programming** concepts blended into real code, in a real project with deadlines, legacy, teams, and real-world systems.
 
