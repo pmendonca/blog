@@ -13,6 +13,15 @@ cover: "/blog/images/01-functional-programming.jpg"
 
 Recomendo a leitura da [parte um]({{< relref "01-functional-programming.pt-BR.md" >}}).
 
+
+Quero começar esse registro compartilhando o objetivo da minha tese, de que é possível atingir um **estado de estabilidade** impressionante ao se aproveitar conceitos de programação funcional numa linguagem multiparadigmática. E esse estado é alcançado quando componentes adquirem **transparência referencial (TR)**. 
+
+Em poucas  palavras **TR** entende-se por uma propriedade observável de uma expressão ou componente. Essa propriedade é dada por uma condição estrtutural denominada **estado estacionário (EE)**. Um componente está em estado estacionário quando: _não possui **estado interno mutável**_; _não depende de **tempo**, **ordem de chamdas** ou **efeitos colaterais**; _pode ser modelada como um **função matemática**.
+
+
+
+Ao isolar efeitos colaterais e tornar estados explícitos, o domínio passa a operar além de um limite onde o mundo externo deixa de influenciar diretamente o comportamento do código. A partir desse ponto, surgem regiões que não reagem ao tempo nem ao contexto — regiões que a teoria descreve como estacionárias e referencialmente transparentes.
+
 ## Transparência Referencial e Estado Estacionário
 
 Ao final deste texto, pretendo mostrar como é possível, por meio de algumas decisões arquiteturais, alcançar aquilo que muitos consideram o **santo graal prático** do paradigma funcional mesmo utilizando linguagens multiparadigmáticas.
