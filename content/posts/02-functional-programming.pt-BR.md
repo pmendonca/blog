@@ -5,7 +5,7 @@ date: 2025-12-21
 author: "Paulo Mendonça"
 draft: false
 weight: 2
-description: "Ilhas de previsibilidade: transparência referencial e estado estacionário em sistemas reais"
+description: "Ilhas de previsibilidade: transparência referencial e estado estacionário em sistemas reais, finalmente apresento a tese sobre como aproveitar FP em linguagens multiparadigmáticas."
 tags:
   - Programação Funcional
   - Arquitetura de Software
@@ -25,7 +25,7 @@ Recomendo a leitura da [parte um]({{< relref "01-functional-programming.pt-BR.md
 
 # A Tese
 
-O caminho natural para a parte dois (especialmente em linguagens multiparadigmáticas) é sair da definição e chegar **num teste executável**: é possível construir um **núcleo estacionário**. Minha tese é menos sobre _virar funcional_ e mais sobre colher ganhos concretos ao adotar práticas que, na prática, a gente costuma associar a linguagens funcionais: imutabilidade, modelagem explícita de estados e redução consciente de efeitos colaterais. Em linguagens multiparadigmáticas isso não vira dogma, e sim recurso. E proponho usar esses recursos para comprar previsibilidade onde ela vale mais — e, melhor ainda, onde os outros paradigmas falham em entregar.
+O caminho natural para a parte dois (especialmente em linguagens multiparadigmáticas) é sair da definição e chegar **num teste executável** de que é possível construir um **núcleo estacionário**. Minha tese é menos sobre _virar funcional_ e mais sobre colher ganhos concretos ao adotar práticas que, na prática, a gente costuma associar a linguagens funcionais: imutabilidade, modelagem explícita de estados e redução consciente de efeitos colaterais. Em linguagens multiparadigmáticas isso não vira dogma, e sim recurso. E proponho usar esses recursos para comprar previsibilidade onde ela vale mais — e, melhor ainda, onde os outros paradigmas falham em entregar.
 
 É possível empurrar um sistema para um núcleo mais "matemático", mais substituível, mais estável? Sim. Mas eu não trato isso como destino obrigatório. O esforço cognitivo existe e nem sempre paga o preço. O que me interessa é o ponto em que essas práticas começam a criar áreas naturalmente mais fáceis de raciocinar, testar e evoluir, e, na minha experiência, o lugar mais fértil para isso acontecer é o domínio, principalmente quando ele é rico o suficiente para justificar regras, transições e invariantes explícitos.
 
