@@ -1,58 +1,74 @@
 ---
-title: "Programação Funcional: Diário Técnico - Parte 2 - Ilhas de Estacionaridade"
-slug: "02-functional-programming-pt-2"
-date: 2025-12-15
+title: "Programação Funcional: Diário Técnico - Parte 2 - As Ilhas"
+slug: "02-functional-programming"
+date: 2025-12-21
 author: "Paulo Mendonça"
-draft: true
-weight: 1,
-description: "Transparência referencial e as ilhas de estacionaridades"
-tags: ["FP", "Programação Funcional", "Arquitetura de Software" ]
-keywords: ["Imutabilidade", "Tipos Algébricos", "Efeitos Colaterais", "Modelagem Explícita"]
-cover: "/blog/images/01-functional-programming.jpg"
+draft: false
+weight: 2
+description: "Ilhas de previsibilidade: transparência referencial e estado estacionário em sistemas reais"
+tags:
+  - Programação Funcional
+  - Arquitetura de Software
+  - Diário Técnico
+keywords:
+  - Transparência Referencial
+  - Estado Estacionário
+  - Imutabilidade
+  - Efeitos Colaterais
+  - Modelagem de Domínio
+cover: "/blog/images/02-functional-programming.jpeg"
 ---
+
+
 
 Recomendo a leitura da [parte um]({{< relref "01-functional-programming.pt-BR.md" >}}).
 
+# A Tese
 
-Quero começar esse registro compartilhando o objetivo da minha tese, de que é possível atingir um **estado de estabilidade** impressionante ao se aproveitar conceitos de programação funcional numa linguagem multiparadigmática. E esse estado é alcançado quando componentes adquirem **transparência referencial (TR)**. 
+O caminho natural para a parte dois (especialmente em linguagens multiparadigmáticas) é sair da definição e chegar **num teste executável**: é possível construir um **núcleo estacionário**. Minha tese é menos sobre _virar funcional_ e mais sobre colher ganhos concretos ao adotar práticas que, na prática, a gente costuma associar a linguagens funcionais: imutabilidade, modelagem explícita de estados e redução consciente de efeitos colaterais. Em linguagens multiparadigmáticas isso não vira dogma, e sim recurso. E proponho usar esses recursos para comprar previsibilidade onde ela vale mais — e, melhor ainda, onde os outros paradigmas falham em entregar.
 
-Em poucas  palavras **TR** entende-se por uma propriedade observável de uma expressão ou componente. Essa propriedade é dada por uma condição estrtutural denominada **estado estacionário (EE)**. Um componente está em estado estacionário quando: _não possui **estado interno mutável**_; _não depende de **tempo**, **ordem de chamdas** ou **efeitos colaterais**; _pode ser modelada como um **função matemática**.
+É possível empurrar um sistema para um núcleo mais "matemático", mais substituível, mais estável? Sim. Mas eu não trato isso como destino obrigatório. O esforço cognitivo existe e nem sempre paga o preço. O que me interessa é o ponto em que essas práticas começam a criar áreas naturalmente mais fáceis de raciocinar, testar e evoluir, e, na minha experiência, o lugar mais fértil para isso acontecer é o domínio, principalmente quando ele é rico o suficiente para justificar regras, transições e invariantes explícitos.
 
+Os conceitos abordados na parte um servem como pavimento. Nesta parte, eu quero mapear onde esse pavimento vira estrada firme para as regiões do sistema em que dá para explorar o modo funcional com menos atrito, e isso não por purismo, mas porque ali a estabilidade se torna material.
 
+> O maior erro que percebo hoje não é ignorar Programação Funcional, e sim acreditar que adotá-la é uma decisão binária.
 
-Ao isolar efeitos colaterais e tornar estados explícitos, o domínio passa a operar além de um limite onde o mundo externo deixa de influenciar diretamente o comportamento do código. A partir desse ponto, surgem regiões que não reagem ao tempo nem ao contexto — regiões que a teoria descreve como estacionárias e referencialmente transparentes.
+## Multiparadigma
 
-## Transparência Referencial e Estado Estacionário
+No texto anterior eu falei de Programação Funcional como se eu estivesse escrevendo de dentro de uma linguagem funcional. Não é o caso. Minha referência prática vem de anos escrevendo sistemas em linguagens **multiparadigmáticas** como C#, Java e JavaScript — lugares onde a gente vive entre o imperativo e a orientação a objetos, e onde as ideias funcionais aparecem mais como **recursos** do que como **contrato**.
 
-Ao final deste texto, pretendo mostrar como é possível, por meio de algumas decisões arquiteturais, alcançar aquilo que muitos consideram o **santo graal prático** do paradigma funcional mesmo utilizando linguagens multiparadigmáticas.
+E esse detalhe muda tudo. Em linguagens que não te obrigam a ser “puro”, é fácil escrever código com cara de funcional e, ainda assim, carregar dependências implícitas por baixo: um `now`, um singleton, um cache global, um repositório chamado no meio da regra, uma mutação silenciosa. O resultado é que a promessa de previsibilidade não vem “de graça”; ela precisa ser comprada com decisões conscientes e, sim, com algum custo cognitivo.
 
-Antes de começarmos se faz necessário avisar o leitor que esse tema possui alguma complexidade. E por isso mereceu um texto dedicado, aqui também faço uma escolha deliberada por uma **abordagem de engenharia e não de ortodoxia acadêmica**. Por conta disso não tenho a mínima pretensão de tratar o tema com o rigor formal ou compromisso com definições canônicas, embora deixo claro que reconheço sua importância. Tomei essa decisão com o intuíto de explorar os conceitos a partir das implicações práticas.
+Por isso, eu não estou defendendo que dá (ou que vale) transformar uma aplicação inteira em funcional. Minha aposta é mais pragmática: **há ganhos reais** quando a gente adota práticas associadas ao mundo funcional — imutabilidade, estados explícitos, efeitos bem localizados — e escolhe onde isso rende mais. E, na minha experiência, o lugar mais fértil para isso é o **domínio**, principalmente quando o domínio é rico o suficiente para merecer regras, invariantes e transições bem definidas.
 
-Antes de mais nada, é importante ter em mente que sempre que mencionar **Transparência Referencial** estarei me referindo a uma propridade observável de uma expressão ou componente. E quando me referir ao **Estado Estacionário** falo da condição estrutural que torna essa propriedade possível. Em outras palavras, não existe transparência referencial sem estado estacionário, pois esse estado é o **pré-requisito material** para que a transparência referencial emerja.
+## Transparência referencial (TR) e estado estacionário (EE)
 
-Por hora vamos combinar que um componente está em estado estacionário quando obedece as seguintes condições:
+Eu vou usar dois termos aqui como ferramentas de raciocínio, não como selo de pureza acadêmica. O primeiro é a **transparência referencial (TR)**, que é uma propriedade observável. Uma expressão/componente é TR quando eu consigo substituí-la pelo valor que ela produz sem mudar nada de relevante no comportamento do sistema.
 
-- Não possui **estado interno mutável**;
-- Não depende de **tempo, ordem de chamadas** ou **efeitos colaterais**;
-- Pode ser modelado como uma **função matemática**;
+Um jeito bem prático de sentir isso é perguntar: *se eu chamar isso duas vezes com a mesma entrada, eu juro que o resultado é o mesmo e que nada “aconteceu” no mundo por causa disso?* Se a resposta for “depende”, quase sempre há alguma dependência implícita escorrendo.
 
-Estado estacionário → Permite → Transparência referencial
+O ponto é que, em linguagens multiparadigmáticas, TR raramente aparece como um “sim/não” perfeito. Ela aparece como regiões do código onde TR vira uma boa aproximação, boa o suficiente para reduzir medo, reduzir simulação mental e aumentar confiança para refatorar.
 
-Embora a parte um tenha abordado a importância da Imutabilidade, Modelagem explícita de estados, Redução consciente de efeitos colaterais, apenas deixei implícito sua importância. **E te preparei até aqui para revelar finalmente** como começar a colocar tudo em prática.
+O segundo termo, **estado estacionário (EE)**, é a condição estrutural que permite essa propriedade emergir. Eu considero que um trecho de código entra em EE quando ele não carrega **estado interno mutável** que afete o resultado sem aparecer na assinatura, quando ele não depende de **tempo**, **ordem de chamadas** ou **efeitos colaterais** para “dar certo”, e quando ele pode ser entendido como transformação: **entrada explícita → saída explícita**.
 
-## Ilhas de Estado Estacionário
+> **TR** é o que eu observo. **EE** é o que eu construo.
 
-Ilhas de estado estacionário são o componentes do sistema onde o comportamento é inveriável ao longo do tempo, dependendo apenas de dados explícitos, e portanto passíveis de modelagem funcional e consequentimente transparência referencial. Fora dessas ilhas, tentar impor o rigor funcional geralmente aumenta a complexidade não valendo o esforço, importante frizar que sistemas reais possuiem efeitos colaterais, e não devemos lutar contra eles.
+Em sistemas reais, a quebra quase nunca é “porque o código é imperativo”, mas sim porque ele tem dependências invisíveis: tempo (`now`), aleatoriedade, IDs gerados “do nada”, leitura/escrita em banco, cache, fila, filesystem, rede, estado global (singletons, `static`, config mutável), mutação compartilhada (um objeto que “vai sendo preenchido”) e ordem (um método que só funciona se outro foi chamado antes).
 
-Essas "ilhas" costumam aparecer em locais clássicos como: lógica de domínio, validação de regras de negócio, cálculos de preço, transições de estado, política de decisões, enriquecimento e normalização de dados. **Onde houver regra, haverá potencial de estacionaridade"**.
+Nada disso é pecado. O problema é quando isso aparece misturado com regra de domínio, porque aí a regra deixa de ser regra e vira uma performance do ambiente.
 
+Isso importa especialmente no domínio, porque lá é onde moram regras, invariantes e transições. Em domínios ricos, a complexidade não está no “como chamar o banco”, mas no “o que pode ou não pode acontecer”. E é exatamente aí que EE costuma pagar o preço: ao tornar entradas e estados explícitos, a gente troca incerteza difusa por um espaço de possibilidades mais estreito.
 
-## Hands on!
+## Ilhas
 
-> [!WARNING] Tome o cuidado de não tentar alcançar a transparência referencial onde isso é inalcansável.
-> - Escolha onde irá aplicar o paradigma funcional
-> - Não caia na armadilha de tentar tornar a aplicação funcional
+No seu projeto vão surgir “ilhas”, independentemente da sua arquitetura. Não é uma promessa e nem uma obrigação: são trechos onde dá para tratar regras e decisões como transformação de dados, sem depender o tempo todo de banco, rede, tela ou log. Nem sempre esses espaços têm limites perfeitamente claros, mas mesmo uma fronteira “boa o suficiente” já muda o jeito de pensar.
 
-### Ilhas de Estacionaridade
+Quando você identificar uma ilha, tente protegê-la: deixe as entradas explícitas, devolva saídas claras, e empurre as ações no mundo (buscar/salvar, chamar API, logar) para a borda. Não é sobre pureza; é sobre dar condições para que um **estado de EE** emerja e, com o tempo, colher os frutos: menos surpresa, menos medo de mexer, testes mais diretos e evolução mais constante.
 
+## Conclusão
 
+Este texto é um relato; tudo o que descrevi aqui foi fruto de muito tempo testando várias possibilidades. Convido você a começar a testar: vá com calma, tente explorar cada tema individualmente e vá prosseguindo sempre que se sentir confortável, e apenas quando começar a enxergar valor. Lembre-se: se a forma não tiver função, ela não terá valor.
+
+Com o tempo você começará a experimentar menos surpresas, menos medo de mexer, testes mais diretos e um ritmo melhor de evolução. **Hoje, quando olho para um sistema, não pergunto se ele é funcional ou orienado a objetos. Pergunto onde a previsibilidade importa mais, e quando quanto estou disposto a pagar por ela.**
+
+Até mais, e obrigado pelos peixes!
