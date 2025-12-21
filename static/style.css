@@ -26,3 +26,15 @@ body {
   color: #f4efe0;
 }
 */
+
+/* Mobile menu: keep items on one line with a wider dropdown. */
+@media (max-width: 684px) {
+  .menu--mobile .menu__dropdown {
+    min-width: 220px;
+    max-width: 90vw;
+  }
+
+  .menu--mobile .menu__dropdown a {
+    white-space: nowrap;
+  }
+}
