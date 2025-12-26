@@ -1,33 +1,31 @@
 ---
-title: "Modelagem explícita de estados e estados como tipo" 
-slug: "03-modelagem-explicia-de-estados"
-date: 2025-12-24
+title: "Modelagem explícita de estados: do valor ao tempo"
+slug: "03-modelagem-explicita-de-estados"
+date: 2025-12-26
 author: "Paulo Mendonça"
 draft: true
-description: "Typestates"
+description: "Uma reflexão sobre como o domínio ganha semântica, proteção e expressividade quando estados deixam de ser implícitos."
 weight: 3
 tags:
-  - Design Patterns
-  - Typestate
-  - Phantom types
-  - Marker types
-  - Constraints como regras
+  - Modelagem explícita de estados
+  - Estados como tipo
 keywords:
-  - Domínios
+  - Primitivos
+  - Value Objects
+  - Marker Types
+  - Phantom Types
   - Typestate
-  - Design Patterns
-# cover: "/blog/images/02-functional-programming.jpeg"
+cover: "/blog/images/03-cover.jpeg"
 ---
+
 
 # Introdução
 
-TODO: TORNAR A INTRODUÇÃO MENOR, 
+Nas partes um e dois tentei fazer um relato. Em alguns momentos falhei e o texto acabou virando um misto do que aconteceu comigo e do que eu (no caso, eu mesmo) deveria fazer. Isso deu ao texto uma aparência meio deselegante, quase de tutorial. Vou tentar corrigir isso aqui, manter a narrativa mais limpa e aproveitar para agradecer a todos pelos feedbacks.
 
-Nas partes um e dois tentei fazer um relato, falhei em algumas partes e o texto virou um mix de coisas que aconteceram vs coisas que vc (no caso "eu") deveria fazer. O que deixou o texto deselegante com uma cara de tutorial.
+Enquanto me aventurava pelos caminhos ainda pouco explorados da modelagem explícita de estados, comecei a me perguntar por que esse tipo de abordagem é tão invisível em linguagens multiparadigma como C#, Java, TypeScript e afins. A resposta, no fim das contas, era exatamente a que se poderia esperar. Esses ecossistemas cresceram sob uma mentalidade imperativa e orientada a dados mutáveis, onde o estado costuma ser representado por flags, enums e condicionais espalhadas. Tornar estados explícitos exige o oposto: antecipar estados possíveis, proibir combinações inválidas e modelar transições. Isso aumenta o esforço inicial e reduz a sensação de velocidade no curto prazo. Em ambientes pressionados por prazos, essa fricção costuma ser percebida como burocracia — mesmo quando reduz erros graves no médio e longo prazo.
 
-Enquanto me aventurava pelos inexplorados caminhos da modelagem explícita, me perguntava quais os motivos que tornam esse tipo de abordagem em linguagens multiparadigma como C#, Java, Typescript entre outras, tão invisíveis. E a resposta? era exatamente o que deveria se esperar. Sob uma mentalidade **imperativa** e **orientada a dados mutáveis**, onde o estado costuma ser representado por flags, enums e condicionais espalhadas. Tornar estados explícitos exige exatamente o oposto: **antecipar estados possíveis, proibir combinações inválidas** e **modelar transições**, o que aumenta o esforço inicial e reduz a sensação de velocidade no curto prazo. Em ambientes pressionados por prazos, essa fricção inicial é percebida como burocracia, mesmo quando reduz erros graves no médio e longo prazo.
-
-Além disso, apesar dessas linguagens permitirm modelagem explícita de estados, não há incetivos ergonômicos. O sistema de tipos é poderoso, porém opcional e frequentemente controlado. É fácil cair em `null`, `bool`, `string` ou um `any` e seguir em frente. Como os erros de estado aparecem tardiamente, o custo real fica invisível para quem escreve o código inicial. O resultado é um ciclo vicioso de estados implícitos que por parecerem mais simples acabam virando padrão, e qualquer tentativa de explicitá-los soa como "complexa demais". E aqui meus caros, percebo que usar essa abordagem apenas expõe a complexidade que sempre esteve lá, lacunas que estavam escondidas, coisas que simplesmente deixamos para o eu do amanhã.
+Além disso, apesar de essas linguagens permitirem a modelagem explícita de estados, quase não há incentivos ergonômicos para isso. O sistema de tipos é poderoso, mas opcional e frequentemente contornado. É fácil cair em null, bool, string ou até um any e seguir em frente. Como os erros de estado aparecem tardiamente, o custo real fica invisível para quem escreve o código inicial. O resultado é um ciclo vicioso: estados implícitos parecem mais simples, viram padrão, e qualquer tentativa de explicitá-los soa como “complexa demais”. No fim, o que essa abordagem faz é apenas expor uma complexidade que sempre esteve lá — lacunas escondidas, decisões adiadas, coisas que deixamos para o eu do amanhã resolver.
 
 ## Blocos de construção
 
@@ -35,7 +33,7 @@ Acabei conhecendo esses atores de forma orgânica, alguns eu melhor compreendi a
 
 ### Primitivos
 
-O ponto zero, `int`, `string`, `Guid`, `decimal`... eles não possuem nenhuma semântica, são baratos, perigosos e inevitáveis nas bordas. Eles não pertencem ao domínio, mas o domínio sempre começa com eles. 
+O ponto zero. `int`, `string`, `Guid`, `decimal`… Eles não possuem semântica, são baratos, perigosos e inevitáveis nas bordas. Não pertencem ao domínio — mas, paradoxalmente, o domínio quase sempre começa com eles.
 
 Os primitivos são perigosos porque carregam valor, mas não carregam significado. Um `int` não diz o que ele representa; uma `string` aceita qualquer coisa; um `Guid` é apenas um identificador sem identidade. O compilador não sabe distinguir um `UserId` de um `OrderId`, um `Age` de um `Quantity`, um `Price` de um `Balance`. Quando o domínio é expresso diretamente com primitivos, você transfere a responsabilidade semântica do **sistema de tipos** para a **memória humana**, comentários, convenções e disciplina. E isso não escala. O erro não aparece onde o código é escrito, aparece depois em integrações erradas, estados inválidos e regras violadas silenciosamente.
 
@@ -81,4 +79,4 @@ Os Typestates tornam explícitas as regras temporais do domínio ao modelar não
 
 ## Conclusão
 
-Talvez o verdadeiro motivo pelo qual a modelagem explícita de estados seja tão rara não seja técnico, mas cultural. Ela nos força a encarar algo desconfortável: que a complexidade não surge porque escrevemos “código ruim”, mas porque o domínio é complexo. E, quando tornamos isso explícito, perdemos o conforto das abstrações vagas e das decisões adiadas. Primitivos, flags e ifs não são escolhas neutras — são formas de empurrar responsabilidade para o futuro. Modelar estados de forma explícita é fazer o oposto: é assumir agora o custo cognitivo que normalmente deixamos para o sistema pagar depois. Talvez por isso essa abordagem incomode tanto. Ela não promete velocidade imediata; promete apenas algo mais difícil de vender: menos surpresas quando já é tarde demais.
+Talvez o verdadeiro motivo pelo qual a modelagem explícita de estados seja tão rara não seja técnico, mas cultural. Ela nos força a encarar algo desconfortável: que a complexidade não surge porque escrevemos “código ruim”, mas porque o domínio é complexo. E, quando tornamos isso explícito, perdemos o conforto das abstrações vagas e das decisões adiadas. Primitivos, flags e ifs não são escolhas neutras, são formas de empurrar responsabilidade para o futuro. Modelar estados de forma explícita é fazer o oposto, é assumir agora o custo cognitivo que normalmente deixamos para o sistema pagar depois. Talvez por isso essa abordagem incomode tanto. Ela não promete velocidade imediata; promete apenas algo mais difícil de vender: menos surpresas quando já é tarde demais.
