@@ -1,6 +1,6 @@
 ---
-title: "Typestates" 
-slug: "03-typestates"
+title: "Modelagem explícita de estados e estados como tipo" 
+slug: "03-modelagem-explicia-de-estados"
 date: 2025-12-24
 author: "Paulo Mendonça"
 draft: true
@@ -19,26 +19,66 @@ keywords:
 # cover: "/blog/images/02-functional-programming.jpeg"
 ---
 
-# Typestate Analysis [^3]
- 
+# Introdução
+
+TODO: TORNAR A INTRODUÇÃO MENOR, 
+
+Nas partes um e dois tentei fazer um relato, falhei em algumas partes e o texto virou um mix de coisas que aconteceram vs coisas que vc (no caso "eu") deveria fazer. O que deixou o texto deselegante com uma cara de tutorial.
+
+Enquanto me aventurava pelos inexplorados caminhos da modelagem explícita, me perguntava quais os motivos que tornam esse tipo de abordagem em linguagens multiparadigma como C#, Java, Typescript entre outras, tão invisíveis. E a resposta? era exatamente o que deveria se esperar. Sob uma mentalidade **imperativa** e **orientada a dados mutáveis**, onde o estado costuma ser representado por flags, enums e condicionais espalhadas. Tornar estados explícitos exige exatamente o oposto: **antecipar estados possíveis, proibir combinações inválidas** e **modelar transições**, o que aumenta o esforço inicial e reduz a sensação de velocidade no curto prazo. Em ambientes pressionados por prazos, essa fricção inicial é percebida como burocracia, mesmo quando reduz erros graves no médio e longo prazo.
+
+Além disso, apesar dessas linguagens permitirm modelagem explícita de estados, não há incetivos ergonômicos. O sistema de tipos é poderoso, porém opcional e frequentemente controlado. É fácil cair em `null`, `bool`, `string` ou um `any` e seguir em frente. Como os erros de estado aparecem tardiamente, o custo real fica invisível para quem escreve o código inicial. O resultado é um ciclo vicioso de estados implícitos que por parecerem mais simples acabam virando padrão, e qualquer tentativa de explicitá-los soa como "complexa demais". E aqui meus caros, percebo que usar essa abordagem apenas expõe a complexidade que sempre esteve lá, lacunas que estavam escondidas, coisas que simplesmente deixamos para o eu do amanhã.
+
+## Blocos de construção
+
+Acabei conhecendo esses atores de forma orgânica, alguns eu melhor compreendi ao usar `rust` e me aventurando pelo `elixir`. Apesar de alguns já serem bem conhecidos, acho que ainda são dignos de menção. E aqui é onde talvez o texto fique uma cara de tutorial. Eu aqui novamente deslizando na narrativa. Vou apresentar quem são, o que são mas ainda não é a hora de fala no "como" e sim na "forma de pensar" esse tema.
+
+### Primitivos
+
+O ponto zero, `int`, `string`, `Guid`, `decimal`... eles não possuem nenhuma semântica, são baratos, perigosos e inevitáveis nas bordas. Eles não pertencem ao domínio, mas o domínio sempre começa com eles. 
+
+Os primitivos são perigosos porque carregam valor, mas não carregam significado. Um `int` não diz o que ele representa; uma `string` aceita qualquer coisa; um `Guid` é apenas um identificador sem identidade. O compilador não sabe distinguir um `UserId` de um `OrderId`, um `Age` de um `Quantity`, um `Price` de um `Balance`. Quando o domínio é expresso diretamente com primitivos, você transfere a responsabilidade semântica do **sistema de tipos** para a **memória humana**, comentários, convenções e disciplina. E isso não escala. O erro não aparece onde o código é escrito, aparece depois em integrações erradas, estados inválidos e regras violadas silenciosamente.
+
+Eles são sedutores. São baratos, rápidos de escrever, universais, e por isso viram o caminho padrão, especialmente em linguagens multiparadigma. Mas esse baixo custo é uma ilusão, o que se economiza na modelagem é pago por validações espalhadas, `if`s defensivos, testes redundantes e bugs difíceis de rastrear. Por isso os primitivos são inevitáveis nas bordas (I/O, serialização, banco de dados e rede), mas tóxicos no núcleo. Eles não pertencem ao domínio porque o domínio é semântica, regra, intenção. E tudo isso começa justamente quando se abandona os **primitivos crus** e passa-se a nomear, restringir e proteger o significado do que o sistema realmente é.
+
+### Value Objects
+
+Os Value Objects carregam uma identidade semântica mínima. Aqui se encapsula validações, removemos ambiguidades básicas e cria-se igualdade por valor. **Aqui acontece o primeiro salto real de domínio**.
+
+VOs representam o **primeiro salto real de domínio** porque são o momento em que o sistema deixa de manipular valores genéricos e passa a manipular significados explícitos. Um `Email` deixa de ser apenas uma string e passa a carregar regras de validade, formato e intenção. Um `Money` deixa de ser um `decimal` e passa a impor moeda, precisão, arredondamento e operações permitidas. Um `UserId` deixa de ser um identificador técnico e passa a ser uma identidade reconhecível pelo domínio. Aqui a semântica sai da cabeça do desenvolvedor e entra no código, tornando erros triviais em **impossibilidades de construção**.
+
+É também nos VOs que se estabelece uma mudança fundamental de comportamento: igualdade por valor, imutabilidade e encapsulamento de invariantes. Isso reduz drasticamente estados inválidos, elimina validações duplicadas e torna o código mais legível, porque o tipo passa a comunicar intenção. Ainda assim é um salto mínimo.
+
+VOs não model processos nem transições, mas criam um alicerce onde o domínio pode existir sem ambiguidades. Sem eles, qualquer tentativa de modelagem avançada nascerão sob areia movediça.
+
+### Marker Types
+
+Servem para realizar **qualificação conceitual**. Eles não mudam dados, mudam o significado criando categorias semânticas. Aqui o domínio vai começar a **dizer coisas sobre si mesmo**.
+
+Os **Markers Types** realizam uma **qualificação** porque introduzem uma camada de significado sem adicionar dados nem comportamento. Eles existem apenas para classificar, rotular e diferenciar semanticamente algo que, em termos estruturais, poderia ser idêntico. Um objeto `User` continua tendo os mesmos campos, mas um `User<Authenticaded>` não é conceitualmente o mesmo que um `User<Anonymous>`.  O Marker não transforma o valor, ele transforma o que o valor representa dentro do domínio. Essa distinção, feita no sistema de tipos, permite que certas operações se tornem ilegais por definição, sem `if`, sem `bool`, sem validações defensivas.
+
+Quando digo que a partir daí, o domínio começa a **dizer coisas sobre si mesmo**, estou falando de auto-descrição semântica. O código deixa de depender de comentários, convenções ou documentação externa para explicar em que condições algo se encontra. O próprio tipo comunica _isso já foi validado_, _isso já foi autenticado_. O domínio passa a carregar afiramções verificáveis em tempo de compilação sobre o seu estado. Não é mais o programador dizendo "confia em mim, isso aí é válido!" mas sim, o compilador dizendo.
+
+Nesse ponto o domínio deixa de ser apenas um conjunto de dados com regras implícitas e começa a se comportar como uma linguagem que descreve a si própria.
+
+### Phantom Types
+
+São invariantes relacionais, aqui codifico pré-condições no tipo, eliminamos sequências inválidas, impedimos usos errados. Em suma: O domínio passa a **se defender sozinho**.
+
+Os Phantom Types fazem o domínio se defender sozinho porque deslocam a verificação de pré-condições do **runtime** para o sistema de tipos. Eles não exsistem em tempo de execução, não carregam dados, mas carregam restrições relacionais como: _este valor só pode ser usado depois que certa condição for satisfeita_, _só faz sentido em combinação com outro tipo específico_, _só pode ppassar por determinadas operações_. O tipo deixa de representar apenas "algo" e passa a representar algo que pode ser utilizado em determinadas condições. Sequências inválidas simplesmente não são expressáveis e não há como "pular etapas", porque o compilado não permitirá.
+
+É aqui que o domínio começa a se **defender sozinho** porque ele não confia mais na disciplina do desenvolvedor nem em validações tardias. Erros deixam de ser possibilidades e passam a ser impossibilidades estruturais. Um recurso não validado não chega a funções que exigem validação e um identificador de contexto não pode ser passado para outro. O domínio vira um **sistema de restrições vivas**, onde usos errados não são tolerados. Nesse ponto, o código deixa de "esperar que façam certo" e passa a forçar o **certo por construção**.
 
 
-Escrevi recentemente sobre como modelar estados explíticos pode te ajudar a criar uma camada de resiliência que até então você poderia acreditar não ser possível. Como tratei o tema de uma forma extritamente teórica achei necessário trazer uma implementação concreta do que estava falando. Vou te apresentar como iniciar os primeiros testes a partir do design pattern **Typestate**[^1] muito bem documentado.
 
-> Em C#, **Typestate** (ou Pattern de Estado) é um padrão de projeto comportamental que permite um objeto mudar seu comportamento quando seu estado interno muda, como se ele estivesse trocado de classe, sem usar muitos `if/else` ou `switch` e movendo erros de estado para o tempo de compilação, tornando o código mais limpo e seguro. Ele encapsula os comportamentos relacionados a cada estado em classes separadas, delegando a tarefa ao objeto de contexto.[^2]
+### Typestate
 
-O objetivo dessa técnica é encapsular uma variedade de comportamentos para um mesmo objeto, baseado no seu estado interno. Isto pode tornar limpa a forma como um objeto muda seu comportamento em tempo de 
+São responsáveis por regras temporais explícitas. Aqui o domínio expressa **ordem**, transições válidas e fecha o cerco contra estados ilegais. Isso é o pronto mais alto de expressividade que consegui ver em linguagens multiparadigma.
 
-## O Exemplo
+Os Typestates tornam explícitas as regras temporais do domínio ao modelar não apenas quais estados existem, mas em que ordem eles podem ocorrer. Cada estado relevante passa a ser representado como um tipo distinto, e cada operação válida é, na prática, uma transcrição tipada. Ela consome um estado e produz outro. O tempo normalmente implícito em comentários, fluxos mentais ou documentação externa, passa a ser codificado na própria assinatura das funções. Não é mais possível chamar algo "fora de hora", porque o compilador exige que o objeto esteja no estado correto antes da operação existir como possibilidade.
 
-Para esse exemplo 
+É por isso que aqui está o ponto mais alto expressividade acessível em linguagens multiparadigma que consegui encontrar. O domínio não apenas carrega significado (VOs), nem apenas se qualifica conceitualmente (Markers), nem apenas se protege de usos indevidos (Phantom Types). Com Typestates, ele passa a expressar comportamento ao longo do tempo, transformando fluxo em tipo e ordem em estrutura. O código deixa de ser uma sequência de instruções defensivas e passa a ser uma descrição formal do que pode e do que nunca poderá acontecer.
 
-{{< gist pmendonca 4ab77c10d202e94add95dfae6ceaae0b program.cs >}}
+## Conclusão
 
-https://gist.github.com/pmendonca/4ab77c10d202e94add95dfae6ceaae0b
-
-## Referências
-
-[^1]: [Design Pattern](https://refactoring.guru/design-patterns/state)
-[^2]: [C# - Apresentando o padrão State](https://www.youtube.com/watch?v=w2PtQWTytW8)
-[^3]: [Typestate Analysis](https://en.wikipedia.org/wiki/Typestate_analysi)
+Talvez o verdadeiro motivo pelo qual a modelagem explícita de estados seja tão rara não seja técnico, mas cultural. Ela nos força a encarar algo desconfortável: que a complexidade não surge porque escrevemos “código ruim”, mas porque o domínio é complexo. E, quando tornamos isso explícito, perdemos o conforto das abstrações vagas e das decisões adiadas. Primitivos, flags e ifs não são escolhas neutras — são formas de empurrar responsabilidade para o futuro. Modelar estados de forma explícita é fazer o oposto: é assumir agora o custo cognitivo que normalmente deixamos para o sistema pagar depois. Talvez por isso essa abordagem incomode tanto. Ela não promete velocidade imediata; promete apenas algo mais difícil de vender: menos surpresas quando já é tarde demais.
