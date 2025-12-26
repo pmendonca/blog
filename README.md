@@ -2,6 +2,9 @@
 
 Notas de setup rápido para rodar o site em Hugo.
 
+## Manifesto do projeto
+- `MANIFESTO.md` (diretrizes vivas: propósito, tom, e critérios de decisão)
+
 ## Pré-requisitos
 - Hugo extended (use uma versão recente; o snap `extended` funciona bem).
 - Git com suporte a submódulos.

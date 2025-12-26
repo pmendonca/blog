@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Important
-- Never change texts in /content/posts folder
+- Never change texts in /content/posts folder without permission
 - If there was anything wrong about the text like typos or more complex issues, please let me know before execute any change
 
 ## Project Structure & Module Organization
@@ -26,6 +26,4 @@
 ## Commit & Pull Request Guidelines
 - No history yet; use short, imperative commit messages (e.g., `Add notes on explicit state`), keeping the subject under ~72 characters.
 - Pull requests should include: purpose, scope of changes (new/updated posts), and a quick preview note or screenshot if layout is relevant.
-- Link any related issues or TODOs; call out breaking content changes (renamed files, retitled posts) so readers can adjust bookmarks.
-
-
+- Link any related issues or TODOs; call out breaking content changes (renamed files, retitled posts) so readers can adjust bookmark.
