@@ -4,7 +4,7 @@ slug: "01-functional-programming"
 date: 2025-12-13
 author: "Paulo Mendonça"
 draft: false
-weight: 1,
+weight: 1
 description: "Reflexões práticas sobre como conceitos de Programação Funcional mudam a forma de trabalhar em sistemas reais."
 tags: ["FP", "Programação Funcional", "Arquitetura de Software" ]
 keywords: ["Imutabilidade", "Tipos Algébricos", "Efeitos Colaterais", "Modelagem Explícita"]
