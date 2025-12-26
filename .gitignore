@@ -1,6 +1,7 @@
 # Hugo build output
 /public/
 /resources/
+/reports/
 .hugo_build.lock
 .hugo_cache/
 error.txt
