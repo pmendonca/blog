@@ -1,9 +1,9 @@
 ---
 title: "Modelagem explícita de estados: do valor ao tempo"
 slug: "03-modelagem-explicita-de-estados"
-date: 2025-12-26
+date: 2025-12-28
 author: "Paulo Mendonça"
-draft: true
+draft: false 
 description: "Uma reflexão sobre como o domínio ganha semântica, proteção e expressividade quando estados deixam de ser implícitos."
 weight: 3
 tags:
@@ -23,7 +23,7 @@ cover: "/blog/images/03-cover.jpeg"
 
 Nas partes um e dois tentei fazer um relato. Em alguns momentos falhei e o texto acabou virando um misto do que aconteceu comigo e do que eu (no caso, eu mesmo) deveria fazer. Isso deu ao texto uma aparência meio deselegante, quase de tutorial. Vou tentar corrigir isso aqui, manter a narrativa mais limpa e aproveitar para agradecer a todos pelos feedbacks.
 
-Enquanto me aventurava pelos caminhos ainda pouco explorados da modelagem explícita de estados, comecei a me perguntar por que esse tipo de abordagem é tão invisível em linguagens multiparadigma como C#, Java, TypeScript e afins. A resposta, no fim das contas, era exatamente a que se poderia esperar. Esses ecossistemas cresceram sob uma mentalidade imperativa e orientada a dados mutáveis, onde o estado costuma ser representado por flags, enums e condicionais espalhadas. Tornar estados explícitos exige o oposto: antecipar estados possíveis, proibir combinações inválidas e modelar transições. Isso aumenta o esforço inicial e reduz a sensação de velocidade no curto prazo. Em ambientes pressionados por prazos, essa fricção costuma ser percebida como burocracia — mesmo quando reduz erros graves no médio e longo prazo.
+Enquanto me aventurava pelos caminhos ainda pouco explorados da modelagem explícita de estados, comecei a me perguntar por que esse tipo de abordagem é tão invisível em linguagens multiparadigmas como C#, Java, TypeScript e afins. A resposta, no fim das contas, era exatamente a que se poderia esperar. Esses ecossistemas cresceram sob uma mentalidade imperativa e orientada a dados mutáveis, onde o estado costuma ser representado por flags, enums e condicionais espalhadas. Tornar estados explícitos exige o oposto: antecipar estados possíveis, proibir combinações inválidas e modelar transições. Isso aumenta o esforço inicial e reduz a sensação de velocidade no curto prazo. Em ambientes pressionados por prazos, essa fricção costuma ser percebida como burocracia — mesmo quando reduz erros graves no médio e longo prazo.
 
 Além disso, apesar de essas linguagens permitirem a modelagem explícita de estados, quase não há incentivos ergonômicos para isso. O sistema de tipos é poderoso, mas opcional e frequentemente contornado. É fácil cair em null, bool, string ou até um any e seguir em frente. Como os erros de estado aparecem tardiamente, o custo real fica invisível para quem escreve o código inicial. O resultado é um ciclo vicioso: estados implícitos parecem mais simples, viram padrão, e qualquer tentativa de explicitá-los soa como “complexa demais”. No fim, o que essa abordagem faz é apenas expor uma complexidade que sempre esteve lá — lacunas escondidas, decisões adiadas, coisas que deixamos para o eu do amanhã resolver.
 
