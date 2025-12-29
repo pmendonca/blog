@@ -21,7 +21,7 @@ cover: "/blog/images/03-cover.jpeg"
 
 # Introdução
 
-Nas partes um e dois tentei fazer um relato. Em alguns momentos falhei e o texto acabou virando um misto do que aconteceu comigo e do que eu (no caso, eu mesmo) deveria fazer. Isso deu ao texto uma aparência meio deselegante, quase de tutorial. Vou tentar corrigir isso aqui, manter a narrativa mais limpa e aproveitar para agradecer a todos pelos feedbacks.
+Nas partes um e dois tentei fazer um relato. Em alguns momentos falhei e o texto acabou virando um misto do que aconteceu comigo e do que eu deveria fazer. Isso deu ao texto uma aparência meio deselegante, quase de tutorial. Vou tentar corrigir isso aqui, manter a narrativa mais limpa e aproveitar para agradecer a todos pelos feedbacks.
 
 Enquanto me aventurava pelos caminhos ainda pouco explorados da modelagem explícita de estados, comecei a me perguntar por que esse tipo de abordagem é tão invisível em linguagens multiparadigmas como C#, Java, TypeScript e afins. A resposta, no fim das contas, era exatamente a que se poderia esperar. Esses ecossistemas cresceram sob uma mentalidade imperativa e orientada a dados mutáveis, onde o estado costuma ser representado por flags, enums e condicionais espalhadas. Tornar estados explícitos exige o oposto: antecipar estados possíveis, proibir combinações inválidas e modelar transições. Isso aumenta o esforço inicial e reduz a sensação de velocidade no curto prazo. Em ambientes pressionados por prazos, essa fricção costuma ser percebida como burocracia — mesmo quando reduz erros graves no médio e longo prazo.
 
