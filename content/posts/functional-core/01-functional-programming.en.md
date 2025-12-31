@@ -13,6 +13,8 @@ cover: "/blog/images/01-functional-programming.jpg"
 
 [Ler em português](/blog/pt-br/posts/01-functional-programming/)
 
+{{< translation-note >}}
+
 Dear reader, this is not a didactic blog. It does not aim to be a tutorial, a manifesto, or a definitive guide. It is a **technical diary**, written for myself, about what happened when **Functional Programming** concepts blended into real code, in a real project with deadlines, legacy, teams, and real-world systems.
 
 This journey began like many others, driven by curiosity. I will describe how, very quickly, the results exceeded any expectation. Common fears faded away: the constant anxiety of changing code and the strong dependence on historical context. What follows is a diary that I now choose to share with you.

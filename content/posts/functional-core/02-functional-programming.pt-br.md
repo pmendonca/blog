@@ -1,11 +1,11 @@
 ---
-title: "Programação Funcional: Diário Técnico - Parte 2 - As Ilhas"
+title: "Onde a previsibilidade importa: ilhas de estabilidade em sistemas reais"
 slug: "02-functional-programming"
 date: 2025-12-21
 author: "Paulo Mendonça"
 draft: false
 weight: 2
-description: "Ilhas de previsibilidade, transparência referencial e estado estacionário em sistemas reais, finalmente apresento a tese sobre como aproveitar FP em linguagens multiparadigmáticas."
+description: "Transparência referencial, estado estacionário e pragmatismo em linguagens multiparadigma."
 tags:
   - Programação Funcional
   - Arquitetura de Software
