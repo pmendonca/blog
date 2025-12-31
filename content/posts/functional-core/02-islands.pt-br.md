@@ -69,6 +69,6 @@ Quando você identificar uma ilha, tente protegê-la: deixe as entradas explíci
 
 Este texto é um relato; tudo o que descrevi aqui foi fruto de muito tempo testando várias possibilidades. Convido você a começar a testar: vá com calma, tente explorar cada tema individualmente e vá prosseguindo sempre que se sentir confortável, e apenas quando começar a enxergar valor. Lembre-se: se a forma não tiver função, ela não terá valor.
 
-Com o tempo você começará a experimentar menos surpresas, menos medo de mexer, testes mais diretos e um ritmo melhor de evolução. **Hoje, quando olho para um sistema, não pergunto se ele é funcional ou orienado a objetos. Pergunto onde a previsibilidade importa mais, e quando quanto estou disposto a pagar por ela.**
+Com o tempo você começará a experimentar menos surpresas, menos medo de mexer, testes mais diretos e um ritmo melhor de evolução. **Hoje, quando olho para um sistema, não pergunto se ele é funcional ou orientado a objetos. Pergunto onde a previsibilidade importa mais, e quanto estou disposto a pagar por ela.**
 
 Até mais, e obrigado pelos peixes!
