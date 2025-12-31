@@ -41,9 +41,9 @@ googleAnalytics = "G-TDX09CXH6T"
 
     [languages."pt-br".menu]
       [[languages."pt-br".menu.main]]
-        identifier = "posts"
-        name = "Posts"
-        url = "posts/"
+        identifier = "functional-core-posts"
+        name = "Core Funcional"
+        url = "posts/functional-core/"
         weight = 1
       [[languages."pt-br".menu.main]]
         identifier = "resume"
@@ -86,9 +86,9 @@ googleAnalytics = "G-TDX09CXH6T"
 
     [languages.en.menu]
       [[languages.en.menu.main]]
-        identifier = "posts"
-        name = "Posts"
-        url = "posts/"
+        identifier = "functional-core-posts"
+        name = "Funcional Core"
+        url = "posts/functional-core/"
         weight = 1
       [[languages.en.menu.main]]
         identifier = "resume"
