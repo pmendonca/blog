@@ -1,0 +1,103 @@
+<!doctype html><html lang=en><head><title>Explicit State Modeling: From Value to Time :: Terminal Blog</title>
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="A reflection on how domains gain semantics, protection, and expressiveness as states stop being implicit."><meta name=keywords content="Primitives,Value Objects,Marker Types,Phantom Types,Typestate"><meta name=robots content="noodp"><link rel=canonical href=https://pmendonca.github.io/blog/posts/functional-core/03-modelagem-explicita-de-estados/><script async src="https://www.googletagmanager.com/gtag/js?id=G-TDX09CXH6T"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-TDX09CXH6T")}</script><link rel=stylesheet href=https://pmendonca.github.io/blog/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css><link rel=stylesheet href=https://pmendonca.github.io/blog/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css><link rel=stylesheet href=https://pmendonca.github.io/blog/style.css><link rel="shortcut icon" href=https://pmendonca.github.io/blog/favicon.png><link rel=apple-touch-icon href=https://pmendonca.github.io/blog/apple-touch-icon.png><meta name=twitter:card content="summary"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="Explicit State Modeling: From Value to Time"><meta property="og:description" content="A reflection on how domains gain semantics, protection, and expressiveness as states stop being implicit."><meta property="og:url" content="https://pmendonca.github.io/blog/posts/functional-core/03-modelagem-explicita-de-estados/"><meta property="og:site_name" content="Terminal Blog"><meta property="og:image" content="https://pmendonca.github.io/blog/images/03-cover.jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="627"><meta property="article:published_time" content="2025-12-28 00:00:00 +0000 UTC"><meta name=author content="Paulo Mendonça"><meta property="article:author" content="Paulo Mendonça"></head><body><div class="container center"><header class=header><div class=header__inner><div class=header__logo><a href=/blog/><div class=logo>Terminal</div></a></div><ul class="menu menu--mobile"><li class=menu__trigger>Menu&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=/blog/posts/functional-core/>Funcional Core</a></li><li><a href=https://pmendonca.github.io/resume/ target=_blank rel="noopener noreferrer">Resumè</a></li><li><a href=https://github.com/pmendonca target=_blank rel="noopener noreferrer">GitHub</a></li><li><a href=https://www.linkedin.com/in/paulocesarmendonca target=_blank rel="noopener noreferrer">LinkedIn</a></li><hr><li><a href=https://pmendonca.github.io/blog/>English</a></li><li><a href=https://pmendonca.github.io/blog/pt-br/>Português</a></li></ul></li></ul><ul class="menu menu--desktop menu--language-selector"><li class=menu__trigger>English&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=https://pmendonca.github.io/blog/>English</a></li><li><a href=https://pmendonca.github.io/blog/pt-br/>Português</a></li></ul></li></ul></div><nav class=navigation-menu><ul class="navigation-menu__inner menu--desktop"><li><a href=/blog/posts/functional-core/>Funcional Core</a></li><li><ul class=menu><li class=menu__trigger>More&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=https://pmendonca.github.io/resume/ target=_blank rel="noopener noreferrer">Resumè</a></li><li><a href=https://github.com/pmendonca target=_blank rel="noopener noreferrer">GitHub</a></li><li><a href=https://www.linkedin.com/in/paulocesarmendonca target=_blank rel="noopener noreferrer">LinkedIn</a></li></ul></li></ul></li></ul></nav></header><div class=content><article class=post><h1 class=post-title><a href=https://pmendonca.github.io/blog/posts/functional-core/03-modelagem-explicita-de-estados/>Explicit State Modeling: From Value to Time</a></h1><div class=post-meta><time class=post-date>2025-12-28</time><span class=post-author>Paulo Mendonça</span></div><span class=post-tags>#<a href=https://pmendonca.github.io/blog/tags/explicit-state-modeling/>Explicit State Modeling</a>&nbsp;
+#<a href=https://pmendonca.github.io/blog/tags/states-as-types/>States as Types</a>&nbsp;
+</span><img src=https://pmendonca.github.io/blog/images/03-cover.jpeg class=post-cover alt="Explicit State Modeling: From Value to Time" title="Cover Image"><div class=post-content><div><blockquote class=translation-note><strong>Translation note</strong><br>This text was translated into English with the assistance of a language model in order to make it available more quickly.
+The original Portuguese version reflects the author’s intent and stylistic choices more precisely.
+This translation may be manually revised in the future.</blockquote><h1 id=introduction>Introduction<a href=#introduction class=hanchor arialabel=Anchor>#</a></h1><p>In parts one and two I tried to tell a story. At times I failed and the text became a mix of
+what happened to me and what I should do. That gave it an inelegant, almost tutorial-like
+tone. I will try to correct that here, keep the narrative cleaner, and take the opportunity to
+thank everyone for the feedback.</p><p>While I was venturing into the still little-explored paths of explicit state modeling, I
+started to ask why this approach is so invisible in multi-paradigm languages like C#, Java,
+TypeScript, and the like. The answer, in the end, was exactly what one would expect. These
+ecosystems grew under an imperative mindset oriented around mutable data, where state is
+usually represented by flags, enums, and scattered conditionals. Making states explicit
+requires the opposite: anticipate possible states, forbid invalid combinations, and model
+transitions. This increases the initial effort and reduces the feeling of short-term speed. In
+deadline-driven environments, that friction is often perceived as bureaucracy - even when it
+reduces serious errors in the medium and long term.</p><p>Besides that, even though these languages allow explicit state modeling, there are almost no
+ergonomic incentives for it. The type system is powerful, but optional and often bypassed. It
+is easy to fall back to null, bool, string, or even an any and move on. Because state errors
+appear late, the real cost stays invisible to whoever writes the initial code. The result is a
+vicious cycle: implicit states seem simpler, become the default, and any attempt to make them
+explicit sounds &ldquo;too complex&rdquo;. In the end, this approach merely exposes a complexity that was
+always there - hidden gaps, postponed decisions, things we leave for tomorrow&rsquo;s self to
+resolve.</p><h2 id=building-blocks>Building blocks<a href=#building-blocks class=hanchor arialabel=Anchor>#</a></h2><p>I ended up meeting these actors organically; some I understood better while using <code>rust</code> and
+venturing into <code>elixir</code>. Even though some are already well known, I think they are still worth
+mentioning. And here is where the text might start to feel a bit like a tutorial. Here I am
+again, slipping in the narrative. I will present who they are and what they are, but it is not
+time yet to talk about the &ldquo;how&rdquo; and instead about the &ldquo;way of thinking&rdquo; around this theme.</p><h3 id=primitives>Primitives<a href=#primitives class=hanchor arialabel=Anchor>#</a></h3><p>Ground zero. <code>int</code>, <code>string</code>, <code>Guid</code>, <code>decimal</code>&mldr; They have no semantics, are cheap, dangerous,
+and inevitable at the edges. They do not belong to the domain - but, paradoxically, the domain
+almost always starts with them.</p><p>Primitives are dangerous because they carry value but not meaning. An <code>int</code> does not say what
+it represents; a <code>string</code> accepts anything; a <code>Guid</code> is just an identifier without identity.
+The compiler cannot distinguish a <code>UserId</code> from an <code>OrderId</code>, an <code>Age</code> from a <code>Quantity</code>, a
+<code>Price</code> from a <code>Balance</code>. When the domain is expressed directly with primitives, you transfer
+semantic responsibility from the <strong>type system</strong> to <strong>human memory</strong>, comments, conventions,
+and discipline. And that does not scale. The error does not show up where the code is written;
+it shows up later in wrong integrations, invalid states, and rules silently violated.</p><p>They are seductive. They are cheap, quick to write, universal, and therefore become the
+standard path, especially in multi-paradigm languages. But that low cost is an illusion; what
+is saved in modeling is paid for with scattered validations, defensive <code>if</code>s, redundant tests,
+and hard-to-trace bugs. That is why primitives are inevitable at the edges (I/O,
+serialization, database, and network), but toxic at the core. They do not belong to the domain
+because the domain is semantics, rules, intention. And all of that begins precisely when we
+abandon <strong>raw primitives</strong> and start naming, constraining, and protecting the meaning of what
+the system truly is.</p><h3 id=value-objects>Value Objects<a href=#value-objects class=hanchor arialabel=Anchor>#</a></h3><p>Value Objects carry a minimal semantic identity. Here we encapsulate validations, remove basic
+ambiguities, and create equality by value. <strong>Here happens the first real domain leap.</strong></p><p>VOs represent the <strong>first real domain leap</strong> because they are the moment when the system stops
+manipulating generic values and starts manipulating explicit meanings. An <code>Email</code> stops being
+just a string and starts carrying rules of validity, format, and intention. A <code>Money</code> stops
+being a <code>decimal</code> and starts enforcing currency, precision, rounding, and allowed operations.
+A <code>UserId</code> stops being a technical identifier and becomes an identity recognized by the
+domain. Here, semantics leave the developer&rsquo;s head and enter the code, turning trivial errors
+into <strong>construction impossibilities</strong>.</p><p>It is also in VOs that a fundamental change in behavior is established: equality by value,
+immutability, and invariant encapsulation. This drastically reduces invalid states, eliminates
+duplicated validations, and makes the code more readable, because the type starts to
+communicate intent. Still, it is a minimal leap.</p><p>VOs do not model processes or transitions, but they create a foundation where the domain can
+exist without ambiguities. Without them, any attempt at advanced modeling will be built on
+quicksand.</p><h3 id=marker-types>Marker Types<a href=#marker-types class=hanchor arialabel=Anchor>#</a></h3><p>They serve to perform <strong>conceptual qualification</strong>. They do not change data; they change the
+meaning by creating semantic categories. Here the domain begins to <strong>say things about itself</strong>.</p><p>Marker Types perform <strong>qualification</strong> because they introduce a layer of meaning without
+adding data or behavior. They exist only to classify, label, and differentiate something that,
+structurally, could be identical. A <code>User</code> object still has the same fields, but a
+<code>User&lt;Authenticated></code> is not conceptually the same as a <code>User&lt;Anonymous></code>. The marker does not
+transform the value; it transforms what the value represents within the domain. That
+distinction, made in the type system, allows certain operations to become illegal by
+definition, without <code>if</code>, without <code>bool</code>, without defensive validations.</p><p>When I say that from here on the domain starts to <strong>say things about itself</strong>, I mean semantic
+self-description. The code stops depending on comments, conventions, or external documentation
+to explain under which conditions something stands. The type itself communicates <em>this has
+already been validated</em>, <em>this has already been authenticated</em>. The domain starts to carry
+claims verifiable at compile time about its state. It is no longer the programmer saying
+&ldquo;trust me, this is valid!&rdquo;, but the compiler saying it.</p><p>At this point the domain stops being just a set of data with implicit rules and starts to
+behave like a language that describes itself.</p><h3 id=phantom-types>Phantom Types<a href=#phantom-types class=hanchor arialabel=Anchor>#</a></h3><p>They are relational invariants; here I encode preconditions in the type, eliminate invalid
+sequences, and prevent wrong uses. In short: the domain starts to <strong>defend itself</strong>.</p><p>Phantom Types make the domain defend itself because they shift precondition checking from the
+<strong>runtime</strong> to the type system. They do not exist at runtime, do not carry data, but carry
+relational constraints such as: <em>this value can only be used after a certain condition is
+satisfied</em>, <em>it only makes sense in combination with another specific type</em>, <em>it can only go
+through certain operations</em>. The type stops representing only &ldquo;something&rdquo; and starts
+representing something that can be used under specific conditions. Invalid sequences are
+simply not expressible and there is no way to &ldquo;skip steps&rdquo;, because the compiler will not
+allow it.</p><p>This is where the domain starts to <strong>defend itself</strong> because it no longer trusts the
+developer&rsquo;s discipline or late validations. Errors stop being possibilities and become
+structural impossibilities. An unvalidated resource does not reach functions that require
+validation and a context identifier cannot be passed to another. The domain becomes a
+<strong>system of living constraints</strong>, where wrong uses are not tolerated. At this point, the code
+stops &ldquo;hoping people will do it right&rdquo; and starts enforcing the <strong>right by construction</strong>.</p><h3 id=typestate>Typestate<a href=#typestate class=hanchor arialabel=Anchor>#</a></h3><p>They are responsible for explicit temporal rules. Here the domain expresses <strong>order</strong>, valid
+transitions, and tightens the fence against illegal states. This is the highest point of
+expressiveness I have managed to see in multi-paradigm languages.</p><p>Typestates make the domain&rsquo;s temporal rules explicit by modeling not only which states exist,
+but in what order they can occur. Each relevant state becomes a distinct type, and each valid
+operation is, in practice, a typed transcription. It consumes one state and produces another.
+Time, usually implicit in comments, mental flows, or external documentation, becomes encoded in
+the function signatures themselves. It is no longer possible to call something &ldquo;out of turn&rdquo;,
+because the compiler requires the object to be in the correct state before the operation can
+exist as a possibility.</p><p>That is why this is the highest point of expressiveness accessible in multi-paradigm languages
+that I have been able to find. The domain not only carries meaning (VOs), nor only qualifies
+itself conceptually (Markers), nor only protects itself from misuse (Phantom Types). With
+Typestates, it starts to express behavior over time, turning flow into type and order into
+structure. The code stops being a sequence of defensive instructions and becomes a formal
+description of what can and what can never happen.</p><h2 id=conclusion>Conclusion<a href=#conclusion class=hanchor arialabel=Anchor>#</a></h2><p>Maybe the real reason explicit state modeling is so rare is not technical, but cultural. It
+forces us to face something uncomfortable: complexity does not arise because we write &ldquo;bad
+code&rdquo;, but because the domain is complex. And when we make that explicit, we lose the comfort
+of vague abstractions and postponed decisions. Primitives, flags, and ifs are not neutral
+choices; they are ways of pushing responsibility into the future. Modeling states explicitly
+is doing the opposite; it is taking on now the cognitive cost we normally leave for the system
+to pay later. Perhaps that is why this approach feels so unsettling. It does not promise
+immediate speed; it promises only something harder to sell: fewer surprises when it is already
+too late.</p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Browse other posts</span><hr></div><div class=pagination__buttons><a href=https://pmendonca.github.io/blog/posts/functional-core/02-functional-programming/ class="button inline prev">&lt; [<span class=button__text>Where Predictability Matters: Islands of Stability in Real Systems</span>]</a></div></div></article></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2026 Powered by <a href=https://gohugo.io>Hugo</a></span>
+<span>:: <a href=https://github.com/panr/hugo-theme-terminal target=_blank>Theme</a> made by <a href=https://github.com/panr target=_blank>panr</a></span></div></div></footer><script type=text/javascript src=/blog/bundle.min.js></script></div></body></html>

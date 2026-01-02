@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Roboto+Flex:wght@400;500;700&display=swap");
+
+
+/* body { */
+/*   font-family: "JetBrains Mono", "Fira Code", monospace; */
+/* } */
+
+.post,
+.post-title,
+.post-meta,
+.post-tags,
+.post-content {
+  /* font-family: "Roboto Flex", "Helvetica Neue", Arial, sans-serif; */
+  font-weight: 400;
+  color: #e7e2d7;
+}
+
+.post-content strong,
+.post-meta strong {
+  font-weight: 650;
+  color: #fdfbf5;
+}
+
+.post-content em {
+  font-style: italic;
+  color: #f4efe0;
+}
+
+
+/* Mobile menu: keep items on one line with a wider dropdown. */
+@media (max-width: 684px) {
+  .menu--mobile .menu__dropdown {
+    min-width: 220px;
+    max-width: 90vw;
+  }
+
+  .menu--mobile .menu__dropdown a {
+    white-space: nowrap;
+  }
+}
+
+/* Gist styling aligned with site palette and 4px image-like border. */
+.gist {
+  --gist-bg: color-mix(in srgb, var(--foreground) 6%, var(--background));
+  --gist-meta-bg: color-mix(in srgb, var(--foreground) 10%, var(--background));
+  --gist-text: var(--foreground);
+  --gist-muted: color-mix(in srgb, var(--foreground) 60%, transparent);
+  --gist-accent: var(--accent);
+  --gist-name: color-mix(in srgb, var(--accent) 80%, var(--foreground) 20%);
+  --gist-constant: color-mix(in srgb, var(--accent) 65%, var(--foreground) 35%);
+  --gist-string: color-mix(in srgb, var(--foreground) 80%, var(--accent) 20%);
+  --gist-diff-add-bg: color-mix(in srgb, var(--accent) 15%, var(--background));
+  --gist-diff-del-bg: color-mix(in srgb, var(--foreground) 12%, var(--background));
+}
+
+.gist .gist-file {
+  background: var(--gist-bg) !important;
+  border: 4px solid var(--gist-accent) !important;
+  border-radius: var(--radius);
+}
+
+.gist .gist-data,
+.gist .gist-data table,
+.gist .gist-data table tr,
+.gist .gist-data table td,
+.gist .highlight,
+.gist .highlight pre,
+.gist .blob-code,
+.gist .blob-code-inner {
+  background: var(--gist-bg) !important;
+  color: var(--gist-text) !important;
+}
+
+.gist .blob-num {
+  background: var(--gist-bg) !important;
+  color: var(--gist-muted) !important;
+  border-right: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent) !important;
+}
+
+.gist .gist-meta {
+  background: var(--gist-meta-bg) !important;
+  color: var(--gist-muted) !important;
+  border-top: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent) !important;
+}
+
+.gist .gist-meta a {
+  color: var(--gist-accent) !important;
+}
+
+.gist .gist-meta a:hover {
+  text-decoration: underline;
+}
+
+/* Syntax colors (theme aligned). */
+.gist .pl-c {
+  color: var(--gist-muted) !important;
+}
+
+.gist .pl-k {
+  color: var(--gist-accent) !important;
+}
+
+.gist .pl-en,
+.gist .pl-ent,
+.gist .pl-smi {
+  color: var(--gist-name) !important;
+}
+
+.gist .pl-c1,
+.gist .pl-v,
+.gist .pl-vpf {
+  color: var(--gist-constant) !important;
+}
+
+.gist .pl-s,
+.gist .pl-pds,
+.gist .pl-s1,
+.gist .pl-s2,
+.gist .pl-sr,
+.gist .pl-sr .pl-cce,
+.gist .pl-sr .pl-sre,
+.gist .pl-sr .pl-sra {
+  color: var(--gist-string) !important;
+}
+
+.gist .pl-bu {
+  color: var(--gist-text) !important;
+}
+
+.gist .pl-ii,
+.gist .pl-c2 {
+  color: var(--gist-text) !important;
+  background-color: var(--gist-diff-del-bg) !important;
+}
+
+.gist .pl-mi1 {
+  color: var(--gist-text) !important;
+  background-color: var(--gist-diff-add-bg) !important;
+}
+
+.gist .pl-md {
+  color: var(--gist-text) !important;
+  background-color: var(--gist-diff-del-bg) !important;
+}
